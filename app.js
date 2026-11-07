@@ -21,7 +21,19 @@
     floorY = H - Math.max(84, H * 0.12);
   }
   var floorY = 0;
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', function () {
+    var oldFloor = floorY;
+    resize();
+    // keep a resting blob seated across viewport changes (first paint included)
+    if (oldFloor && pts.length && !(grab && grab.active)) {
+      var maxY = -1e9;
+      for (var i = 0; i < N; i++) if (pts[i].y > maxY) maxY = pts[i].y;
+      if (Math.abs(maxY - oldFloor) < 6) {
+        var dy = floorY - oldFloor;
+        for (i = 0; i < N; i++) { pts[i].y += dy; pts[i].py += dy; }
+      }
+    }
+  });
   resize();
 
   // ---------- soft body ----------
