@@ -371,6 +371,19 @@
     ctx.beginPath(); ctx.ellipse(ex2 + R0 * 0.12, ey + R0 * 0.22 * fy, R0 * 0.1 * fx, R0 * 0.06 * fy, 0, 0, 7); ctx.fill();
   }
 
+  // verification probe: blob bounds + interaction state, no PII
+  window.__jellyProbe = function () {
+    var minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9, mx = 0, my = 0;
+    for (var i = 0; i < N; i++) {
+      mx += pts[i].x; my += pts[i].y;
+      if (pts[i].x < minX) minX = pts[i].x;
+      if (pts[i].x > maxX) maxX = pts[i].x;
+      if (pts[i].y < minY) minY = pts[i].y;
+      if (pts[i].y > maxY) maxY = pts[i].y;
+    }
+    return { cx: mx / N, cy: my / N, w: maxX - minX, h: maxY - minY, grabbed: grab.active, interacted: interacted };
+  };
+
   function frame(ts) {
     step();
     draw(ts || 0);
