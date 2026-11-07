@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>jelly - a soft minute</title>
+<meta name="description" content="A soft jelly blob to poke, stretch and fling. Nothing to win, nothing saved.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='17' r='11' fill='%23e86a8a'/%3E%3Cellipse cx='12' cy='13' rx='3.4' ry='2.2' fill='%23ffd9e2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<canvas id="scene" aria-label="A soft pink jelly blob. Drag it, stretch it, fling it around its sunny room."></canvas>
+<header id="masthead">
+  <h1>jelly</h1>
+</header>
+<p id="hint" role="status"></p>
+<button id="soundToggle" aria-label="Turn sound on" aria-pressed="false">
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <path class="spk" d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+    <path class="wav" d="M16.5 8.5a5 5 0 0 1 0 7M18.8 6a8.4 8.4 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <line class="mut" x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+</button>
+<script src="app.js?v=1"></script>
+</body>
+</html>
