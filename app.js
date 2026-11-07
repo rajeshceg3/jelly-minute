@@ -29,7 +29,7 @@
   var R0 = Math.max(46, Math.min(74, Math.min(W, H) * 0.16));
   var pts = [];
   var rest = [];
-  var cx0 = W / 2, cy0 = floorY - R0 - 40;
+  var cx0 = W / 2, cy0 = floorY - R0 - 8;
   for (var i = 0; i < N; i++) {
     var a = (i / N) * Math.PI * 2 - Math.PI / 2;
     var rx = Math.cos(a) * R0, ry = Math.sin(a) * R0;
@@ -132,6 +132,9 @@
   canvas.addEventListener('touchmove', move, { passive: false });
   canvas.addEventListener('touchend', up);
   canvas.addEventListener('touchcancel', up);
+
+  // pre-settle so the first painted frame is already seated (also covers rAF-starved environments)
+  for (var settle = 0; settle < 90; settle++) step();
 
   // ---------- hints ----------
   function showHint(text, holdMs) {
