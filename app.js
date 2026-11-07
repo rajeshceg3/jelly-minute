@@ -22,16 +22,29 @@
   }
   var floorY = 0;
   window.addEventListener('resize', function () {
-    var oldFloor = floorY;
+    var oldFloor = floorY, oldW = W;
     resize();
+    if (!oldW || !pts.length || (grab && grab.active)) return;
+    var i, maxY = -1e9, cx = 0;
+    for (i = 0; i < N; i++) { if (pts[i].y > maxY) maxY = pts[i].y; cx += pts[i].x; }
+    cx /= N;
     // keep a resting blob seated across viewport changes (first paint included)
-    if (oldFloor && pts.length && !(grab && grab.active)) {
-      var maxY = -1e9;
-      for (var i = 0; i < N; i++) if (pts[i].y > maxY) maxY = pts[i].y;
-      if (Math.abs(maxY - oldFloor) < 6) {
-        var dy = floorY - oldFloor;
-        for (i = 0; i < N; i++) { pts[i].y += dy; pts[i].py += dy; }
+    if (Math.abs(maxY - oldFloor) < 6) {
+      var dy = floorY - oldFloor;
+      for (i = 0; i < N; i++) { pts[i].y += dy; pts[i].py += dy; }
+    }
+    // keep the blob's relative horizontal position and always onscreen
+    if (W !== oldW) {
+      var dx = cx * (W / oldW) - cx;
+      var minX = 1e9, maxX = -1e9;
+      for (i = 0; i < N; i++) {
+        var nx = pts[i].x + dx;
+        if (nx < minX) minX = nx;
+        if (nx > maxX) maxX = nx;
       }
+      if (minX < 8) dx += 8 - minX;
+      if (maxX > W - 8) dx -= maxX - (W - 8);
+      for (i = 0; i < N; i++) { pts[i].x += dx; pts[i].px += dx; }
     }
   });
   resize();
